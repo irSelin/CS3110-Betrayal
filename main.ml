@@ -76,6 +76,10 @@ let rec check_status_helper lst state =
         print_newline(); 
         ANSITerminal.(print_string [yellow]s); 
         check_status_helper t state
+      | State.Endgame s ->
+        print_newline(); 
+        ANSITerminal.(print_string [yellow]s);
+        exit 0
     end
 
 let check_status state = 
