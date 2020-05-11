@@ -132,7 +132,7 @@ let set_stat_hunger change p =
   in {p with stats = changed_stats}
 
 
-(** [print_stats sts] is unit;  *)
+(** [print_stats sts] is unit; prints the player_stats [sts] of a player. *)
 let print_stats sts = 
   print_string "Sanity: "; print_int sts.sanity; print_newline ();
   print_string "Insight: "; print_int sts.insight; print_newline ();
@@ -140,6 +140,7 @@ let print_stats sts =
   print_string "Hunger: "; print_int sts.hunger; print_newline ();
   ()
 
+(** [print_stats sts] is unit; prints the [name], [location], and [player_stats] of a player [p]. *)
 let print_player p =
   let locale = 
     begin match (p.location |> Tiles.get_room) with 
