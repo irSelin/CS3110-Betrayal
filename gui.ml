@@ -12,19 +12,20 @@ let bottom_options = ["       "; "|_____|"; "|_   _|"]
 let corner_tile st =
   State.first_tile st
 
-(** *)
-let players_in_room (til: Tiles.coord) (lst : (Tiles.coord * int list) list) = 
-  begin match List.assoc_opt til lst with 
+(** [players_in_room c lst] is list of players on the tile with coordinates [c] from the association list [lst]. *)
+let players_in_room (c: Tiles.coord) (lst : (Tiles.coord * int list) list) = 
+  begin match List.assoc_opt c lst with 
     | None -> []
     | Some v -> v
   end
 
-(**  *)
+(** [parse_top til p_lst] is a string representing the top side of a tile [til]. *)
 let parse_top til p_lst =
   match Tiles.get_n til with 
   | (Nonexistent, _) -> List.nth top_options 1
   | (_,_) -> List.nth top_options 2
 
+(** [parse_top til p_lst] is a string representing the second most top side of a tile [til]; with a representation for players [p_lst] included if there are any. *)
 let parse_top_II til p_lst = 
   let players = players_in_room (Tiles.get_coords til) p_lst in 
   let room_wall = 
@@ -35,6 +36,7 @@ let parse_top_II til p_lst =
     | h::[] -> "|  "^ string_of_int h ^ "  |"
   in room_wall
 
+(** [parse_middle til p_lst] is a string representing the sides of a tile [til] at its middle; with a representation for players [p_lst] included if there are any. *)
 let parse_middle til p_lst =
   let players = players_in_room (Tiles.get_coords til) p_lst in
   let room_wall =
@@ -51,6 +53,7 @@ let parse_middle til p_lst =
     | h::[] -> String.sub room_wall 0 3 ^ string_of_int h ^ String.sub room_wall 6 3
   else room_wall
 
+(** [parse_bottom til p_lst] is a string representing the bottom side of a tile [til]. *)
 let parse_bottom til p_lst =
   match Tiles.get_s til with 
   | (Nonexistent, _) -> List.nth bottom_options 1
@@ -82,7 +85,7 @@ let rec print_row_side func t (p : (Tiles.coord * int list) list) =
   | (_, Some til) -> print_row_side func til p
   | (_, None) -> () 
 
-(** [print_row_side] is unit; parses all sides of a tile for a row of tiles. *)
+(** [print_row_side] is unit; parses all sides of a tile [t] for a row of tiles. *)
 let print_row t p_lst =
   print_row_side parse_top t p_lst;
   print_newline ();
