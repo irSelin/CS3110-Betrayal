@@ -67,20 +67,19 @@ let rec check_status_helper lst state =
   match lst with 
   | [] -> state
   | h::t -> 
-    begin match h with 
-      | State.Win s -> 
-        print_newline(); 
-        ANSITerminal.(print_string [yellow]s);
-        exit 0
-      | State.Loss s -> 
-        print_newline(); 
-        ANSITerminal.(print_string [yellow]s); 
-        check_status_helper t state
-      | State.Endgame s ->
-        print_newline(); 
-        ANSITerminal.(print_string [yellow]s);
-        exit 0
-    end
+    match h with 
+    | State.Win s -> 
+      print_newline(); 
+      ANSITerminal.(print_string [yellow]s);
+      exit 0
+    | State.Loss s -> 
+      print_newline(); 
+      ANSITerminal.(print_string [yellow]s); 
+      check_status_helper t state
+    | State.Endgame s ->
+      print_newline(); 
+      ANSITerminal.(print_string [yellow]s);
+      exit 0
 
 let check_status state = 
   state |> check_status_helper (State.get_status state)
